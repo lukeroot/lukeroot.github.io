@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advent Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 20px 0;
+            color: #00509e;
+        }
+
+        img {
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+        }
+
+        area {
+            pointer-events: none; /* Disable all areas by default */
+            cursor: not-allowed; /* Show a "not-allowed" cursor for locked days */
+        }
+
+        area.unlocked {
+            pointer-events: auto; /* Enable clickable areas */
+            cursor: pointer; /* Show a pointer cursor for unlocked days */
+        }
+    </style>
+</head>
+<body>
+    <h1>Advent Calendar</h1>
+
+    <img src="images/Xmas.png" alt="Advent Calendar" usemap="#calendar-map">
+
+    <map name="calendar-map">
+        <!-- Day 2 -->
+        <area shape="rect" coords="0,300,150,420" href="storybook.html" alt="Storybook (Day 2)" class="unlocked">
+
+        <!-- Day 3 -->
+        <area shape="rect" coords="150,300,300,420" href="starforts.html" alt="Star Forts (Day 3)" class="unlocked">
+
+        <!-- Day 4 -->
+        <area shape="rect" coords="455,430,600,600" href="circlequiz.html" alt="Circle Quiz (Day 4)" class="unlocked">
+
+        <!-- Day 5 -->
+        <area shape="rect" coords="150,430,300,600" href="gingerbread.html" alt="Gingerbread (Day 5)" class="unlocked">
+
+        <!-- Day 6 -->
+        <area shape="rect" coords="300,0,450,150" href="lego.html" alt="LEGO (Day 6)" class="unlocked">
+
+        <!-- Day 9 -->
+        <area shape="rect" coords="455,150,600,290" href="pudding.html" alt="Pudding (Day 9)" class="unlocked">
+
+        <!-- Day 10 -->
+        <area shape="rect" coords="455,300,600,420" href="hot.html" alt="Hot (Day 10)" class="unlocked">
+
+        <!-- Day 11 -->
+        <area shape="rect" coords="300,430,450,600" href="slip.html" alt="Slip (Day 11)" class="unlocked">
+
+        <!-- Day 12 -->
+        <area shape="rect" coords="150,0,300,150" href="ice.html" alt="Ice (Day 12)" class="unlocked">
+
+        <!-- Day 13 -->
+        <area shape="rect" coords="150,150,300,290" href="wrap.html" alt="Wrap (Day 13)" class="unlocked">
+
+        <!-- Day 16 -->
+        <area shape="rect" coords="455,0,600,150" href="belfry.html" alt="Belfry (Day 16)" class="unlocked">
+
+        <!-- Day 17 -->
+        <area shape="rect" coords="0,150,150,290" href="star.html" alt="Star (Day 17)" class="unlocked">
+
+        <!-- Day 18 -->
+        <area shape="rect" coords="0,430,150,600" href="cake.html" alt="Cake (Day 18)" class="unlocked">
+
+        <!-- Day 19 -->
+        <area shape="rect" coords="0,0,150,150" href="moose.html" alt="Moose (Day 19)" class="unlocked">
+
+        <!-- Day 20 -->
+        <area shape="rect" coords="300,150,450,420" href="twenty.html" alt="Twenty (Day 20)" class="unlocked">
+    </map>
+</body>
+</html>

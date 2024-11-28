@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❄️ 11th December - Quiz time! ❄️</title>
+    <style>
+        body {
+            background-color: #f0f8ff; /* Light blue for a fun, frosty feel */
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c5f2d; /* Dark green for contrast */
+            margin-top: 20px;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff8dc; /* Light beige for readability */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .question {
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+
+        .reveal-button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #2c5f2d; /* Dark green */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .reveal-button:hover {
+            background-color: #397a39; /* Slightly lighter green on hover */
+        }
+
+        .answer {
+            display: none;
+            margin-top: 10px;
+            color: #333;
+            font-style: italic;
+        }
+
+        .fun-theme {
+            text-align: center;
+            font-size: 2rem;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>❄️ 11th December - Quiz time! ❄️</h1>
+
+    <div class="quiz-container">
+
+        <div class="question">
+            <strong>What does the Pendulum Test measure?</strong><br />
+            A) How hard you can strike glass before it shatters<br />
+            B) How slippery a surface is when wet<br />
+            C) Contrast between surfaces<br />
+            D) Reflectiveness of glazed tiles<br />
+            <button class="reveal-button" onclick="document.getElementById('answer1').style.display='block'; this.style.display='none';">Reveal Answer</button>
+            <p id="answer1" class="answer">
+                **Answer: B) How slippery a surface is when wet**<br>
+                The Pendulum Test measures the coefficient of friction, indicating how slippery a surface might be, especially under wet conditions.
+            </p>
+        </div>
+
+        <div class="question">
+            <strong>Which of the following factors does NOT directly affect slip resistance?</strong><br />
+            A) Surface texture<br />
+            B) Footwear material<br />
+            C) Air temperature<br />
+            D) Contaminants like water or oil<br />
+            <button class="reveal-button" onclick="document.getElementById('answer2').style.display='block'; this.style.display='none';">Reveal Answer</button>
+            <p id="answer2" class="answer">
+                **Answer: C) Air temperature**<br>
+                While air temperature may indirectly affect slipperiness by influencing freezing or evaporation, it doesn't directly impact the surface's slip resistance.
+            </p>
+        </div>
+
+        <div class="question">
+            <strong>Which of these is the best choice for slip resistance in wet conditions?</strong><br />
+            A) Polished marble<br />
+            B) Textured ceramic tiles<br />
+            C) Vinyl flooring<br />
+            D) Carpet<br />
+            <button class="reveal-button" onclick="document.getElementById('answer3').style.display='block'; this.style.display='none';">Reveal Answer</button>
+            <p id="answer3" class="answer">
+                **Answer: B) Textured ceramic tiles**<br>
+                Textured ceramic tiles are specifically designed for wet environments, offering superior grip, durability, and drainage without retaining water.
+            </p>
+        </div>
+
+    </div>
+</body>
+</html>

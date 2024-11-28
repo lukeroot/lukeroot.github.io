@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16th December - Belfry Trivia ⛪✨⛪</title>
+    <style>
+        .image-section {
+            float: right; /* Float the image to the right */
+            width: 30%; /* Adjust width */
+            max-width: 200px; /* Ensure it doesn’t exceed the max width */
+            height: auto; /* Maintain aspect ratio */
+            position: relative; /* Enable positioning */
+            right: 100px; /* Move the image 100px to the left */
+            margin: 0 0 10px 0; /* Remove conflicting margins */
+        }
+
+        .text-section {
+            overflow: hidden; /* Ensure proper wrapping around the floated image */
+        }
+
+        p,
+        ol {
+            text-align: justify; /* Optional: Justify text for a cleaner look */
+            font-size: 1.1rem; /* Slightly larger text */
+            line-height: 1.6; /* Adjust line height for readability */
+        }
+
+        .photo-credit {
+            text-align: right;
+            font-size: 14px;
+            color: gray;
+            position: relative; /* Enable positioning */
+            right: 100px; /* Move credit 100px to the left */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .image-section {
+                float: none; /* Remove floating */
+                display: block; /* Treat as a block-level element */
+                margin: 20px auto; /* Center the image */
+                position: static; /* Reset positioning */
+                right: 0; /* Reset positioning adjustments */
+            }
+
+            .photo-credit {
+                text-align: center; /* Center-align the photo credit */
+                right: 0; /* Reset positioning adjustments */
+                margin-right: 0; /* Reset margins */
+            }
+
+            p,
+            ol {
+                text-align: left; /* Left-align text for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>16th December - Belfry Trivia ⛪✨⛪</h1>
+    <br />
+    <div class="text-section">
+        <img src="belfry.jpg" alt="Belfry" class="image-section" />
+        <p>
+            The word <strong>belfry</strong> comes from the Old North French <em>berfroi</em> or <em>berfrei</em>, meaning "movable wooden siege tower".
+            <br />The Old French word itself is derived from Middle High German <em>bercfrit</em>, meaning "protecting shelter".
+        </p>
+
+        <p>However, some time between 1290 and 1450 it was renamed to, "Belfry". Why?</p>
+
+        <ol>
+            <li>Overwhelming dislike of the French language by the landowners.</li>
+            <li>The gentry didn't want the peasants trying to move the towers.</li>
+            <li>People thought the word had something to do with bells.</li>
+            <li>Sir Richard Bellmont-Fry built several towers near Winchester.</li>
+        </ol>
+    </div>
+
+    <p class="photo-credit">
+        Photo by <a href="https://unsplash.com/@@world_of_monochrome?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+                    target="_blank"
+                    style="color:inherit; text-decoration:underline;">Arthur Wang</a> on
+        <a href="https://unsplash.com/photos/a-couple-people-walking-towards-a-building-bdzQwUPqvHw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+           target="_blank"
+           style="color:inherit; text-decoration:underline;">Unsplash</a>
+    </p>
+
+    <p style="text-align:center;">
+        <button id="revealAnswer" style="padding:10px 20px; font-size:16px; cursor:pointer;">Show Answer</button>
+    </p>
+
+    <p id="answer" style="display:none; text-align:center; font-size:18px; margin-top:20px;">
+        Answer: <strong>3</strong> - People thought the word had something to do with bells.
+    </p>
+
+    <script>
+        const button = document.getElementById("revealAnswer");
+        const answer = document.getElementById("answer");
+
+        button.addEventListener("click", () => {
+            answer.style.display = "block"; // Show the answer when the button is clicked
+            button.style.display = "none"; // Hide the button after it's clicked
+        });
+
+        // Optional: Allow pressing Enter to reveal the answer
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" && answer.style.display === "none") {
+                answer.style.display = "block"; // Show the answer
+                button.style.display = "none"; // Hide the button
+            }
+        });
+    </script>
+</body>
+</html>
