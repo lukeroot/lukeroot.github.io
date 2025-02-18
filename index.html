@@ -1,120 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=1280, initial-scale=1">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advent Calendar</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1 {
-            font-size: 2rem;
-            margin: 20px 0;
-            color: #00509e;
-        }
-
-        img {
-            max-width: 600px;
-            width: 100%;
-            height: auto;
-        }
-    </style>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Litter Pick Bingo</title>
+    <!-- vendor -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans" />
+    <script src="https://use.fontawesome.com/b219f80601.js"></script>
+    <!-- local -->
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <h1>Advent Calendar</h1>
-
-    <img src="Xmas.png" alt="Advent Calendar" usemap="#calendar-map">
-
-    <map name="calendar-map">
-        <!-- Day 2 -->
-        <area shape="rect" coords="0,300,150,420" data-href="storybook.html" data-alt="Storybook (Day 2)" data-day="2">
-
-        <!-- Day 3 -->
-        <area shape="rect" coords="150,300,300,420" data-href="starforts.html" data-alt="Star Forts (Day 3)" data-day="3">
-
-        <!-- Day 4 -->
-        <area shape="rect" coords="455,430,600,600" data-href="circlequiz.html" data-alt="Circle Quiz (Day 4)" data-day="4">
-
-        <!-- Day 5 -->
-        <area shape="rect" coords="150,430,300,600" data-href="gingerbread.html" data-alt="Gingerbread (Day 5)" data-day="5">
-
-        <!-- Day 6 -->
-        <area shape="rect" coords="300,0,450,150" data-href="lego.html" data-alt="LEGO (Day 6)" data-day="6">
-
-        <!-- Day 9 -->
-        <area shape="rect" coords="455,150,600,290" data-href="pudding.html" data-alt="Pudding (Day 9)" data-day="9">
-
-        <!-- Day 10 -->
-        <area shape="rect" coords="455,300,600,420" data-href="hot.html" data-alt="Hot (Day 10)" data-day="10">
-
-        <!-- Day 11 -->
-        <area shape="rect" coords="300,430,450,600" data-href="slip.html" data-alt="Slip (Day 11)" data-day="11">
-
-        <!-- Day 12 -->
-        <area shape="rect" coords="150,0,300,150" data-href="ice.html" data-alt="Ice (Day 12)" data-day="12">
-
-        <!-- Day 13 -->
-        <area shape="rect" coords="150,150,300,290" data-href="wrap.html" data-alt="Wrap (Day 13)" data-day="13">
-
-        <!-- Day 16 -->
-        <area shape="rect" coords="455,0,600,150" data-href="belfry.html" data-alt="Belfry (Day 16)" data-day="16">
-
-        <!-- Day 17 -->
-        <area shape="rect" coords="0,150,150,290" data-href="star.html" data-alt="Star (Day 17)" data-day="17">
-
-        <!-- Day 18 -->
-        <area shape="rect" coords="0,430,150,600" data-href="cake.html" data-alt="Cake (Day 18)" data-day="18">
-
-        <!-- Day 19 -->
-        <area shape="rect" coords="0,0,150,150" data-href="moose.html" data-alt="Moose (Day 19)" data-day="19">
-
-        <!-- Day 20 -->
-        <area shape="rect" coords="300,150,450,420" data-href="twenty.html" data-alt="Twenty (Day 20)" data-day="20">
-
-        <div id="christmas_egg" style="display: none;" value=""><div/>
-    </map>
-
-    <script>
-        var siteWidth = 1280;
-        var scale = screen.width /siteWidth;
-        document.querySelector('meta[name="viewport"]').setAttribute('content', 'width='+siteWidth+', initial-scale='+scale+'');
-        document.addEventListener('keypress', function (e) {
-            // Get the current christmas_egg element value
-            let christmasEggValue = document.getElementById('christmas_egg').getAttribute('value');
-            // Prepend the pressed key to christmas_egg value attribute
-            let newChristmasEggValue = christmasEggValue + e.key;
-            document.getElementById('christmas_egg').setAttribute('value', newChristmasEggValue);
-            if (newChristmasEggValue == "moo") {
-                checkDate(new Date('98-12-25')) // It's always christmas '98!
-            }
-        });
-        // Function to check the calendar date
-        function checkDate(date) {
-            const currentDay = date.getDate();
-            const currentMonth = date.getMonth() + 1; // Months are 0-based
-
-            // Enable clickable areas only for December
-            const areas = document.querySelectorAll('area');
-
-            areas.forEach(area => {
-                const day = parseInt(area.dataset.day); // Get the 'data-day' value
-
-                if (currentMonth === 12 && day <= currentDay) {
-                    // Unlock area for current or past days
-                    area.style.display = 'inline'; // Make the area visible
-                    // open area by adding the href attribute
-                    area.setAttribute('href', area.dataset.href);
-                    area.setAttribute('alt', area.dataset.alt); // Optional: adds tooltips for future days
-                }
-            });
-        }
-        checkDate(new Date()); // Run once on webpage load with current date
-    </script>
+	<form class="container" method="GET">
+	<img id="poll" src="poll.jpg" />
+		<input id="select1" class="select select1" type="checkbox"/>
+		<input id="select2" class="select select2" type="checkbox"/>
+		<input id="select3" class="select select3" type="checkbox"/>
+		<input id="select4" class="select select4" type="checkbox"/>
+		<input id="select5" class="select select5" type="checkbox"/>
+		<input id="select6" class="select select6" type="checkbox"/>
+		<input id="select7" class="select select7" type="checkbox"/>
+		<input id="select8" class="select select8" type="checkbox"/>
+		<input id="select9" class="select-text"/>
+		<input id="name" class="select-text">
+		<button>Submit Pickings</button>
+	</form>
 </body>
-</html>

@@ -1,0 +1,110 @@
+#poll {
+    position: relative;
+    background-size: cover;
+    width: 39rem;
+}
+
+
+.container {
+/*  width: 50%;*/
+    left: 33%;
+/*    width: 39rem;*/
+    position: relative;
+}
+
+.select {
+    position: relative;
+    scale: 3;
+}
+
+#select1 {
+    bottom: 44.1rem;
+    right: 27.6rem;
+}
+
+#select2 {
+    bottom: 44.5rem;
+    right: 18rem;
+}
+
+#select3 {
+    bottom: 44.5rem;
+    right: 8.4rem;
+}
+
+#select4 {
+    bottom: 34.7rem;
+    right: 34.5rem;
+}
+
+#select5 {
+    bottom: 34.75rem;
+    right: 25rem;
+}
+
+#select6 {
+    bottom: 35rem;
+    right: 15.35rem;
+}
+
+#select7 {
+    bottom: 24.5rem;
+    right: 41.5rem;
+}
+
+#select8 {
+    bottom: 24.5rem;
+    right: 31.9rem;
+}
+
+.select-text {
+    position: relative;
+    height: 1.5rem;
+    background-color: #144c4a;
+}
+
+#select9 {
+    bottom: 13.25rem;
+    right: 46rem;
+    width: 20rem;
+}
+
+#name {
+    right: 74rem;
+    bottom: 8rem;
+}
+
+    input[type='checkbox'] {
+        -webkit-appearance: none;
+        width: 25px;
+        height: 25px;
+        vertical-align:middle;
+    }
+
+    input[type='checkbox']:checked, input[type='checkbox']:hover {
+        background-image: url("tick.png");
+        background-size: 100%;
+        background-position: right center;
+        background-repeat: no-repeat;
+   }
+button {
+    position: relative;
+    right: 65.5rem;
+    bottom: 8rem;
+    scale: 2;
+    background-color: #c4efed;
+    border: 1.5px solid #555;
+    border-radius: 15px;
+    padding: .5rem;
+}
+
+button:hover {
+    background-color: #0088b2;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #c4efed;
+}
