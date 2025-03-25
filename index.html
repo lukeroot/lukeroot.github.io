@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.75">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Litter Pick Bingo</title>
+    <title>LukeRootle - The word game!</title>
     <!-- vendor -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.color-animation/1/mainfile"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans" />
@@ -16,18 +17,25 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-	<form class="container" method="GET">
-	<img id="poll" src="poll.jpg" />
-		<input id="select1" class="select select1" type="checkbox"/>
-		<input id="select2" class="select select2" type="checkbox"/>
-		<input id="select3" class="select select3" type="checkbox"/>
-		<input id="select4" class="select select4" type="checkbox"/>
-		<input id="select5" class="select select5" type="checkbox"/>
-		<input id="select6" class="select select6" type="checkbox"/>
-		<input id="select7" class="select select7" type="checkbox"/>
-		<input id="select8" class="select select8" type="checkbox"/>
-		<input id="select9" class="select-text"/>
-		<input id="name" class="select-text">
-		<button>Submit Pickings</button>
-	</form>
+    <guess>
+        <row>
+            <cell id="1_1" class="1">⠀</cell><cell id="2_1" class="1">⠀</cell><cell id="3_1" class="1">⠀</cell><cell id="4_1" class="1">⠀</cell><cell id="5_1" class="1">⠀</cell>
+        </row>
+        <row>
+            <cell id="1_2" class="2">⠀</cell><cell id="2_2" class="2">⠀</cell><cell id="3_2" class="2">⠀</cell><cell id="4_2" class="2">⠀</cell><cell id="5_2" class="2">⠀</cell>
+        </row>
+        <row>
+            <cell id="1_3" class="3">⠀</cell><cell id="2_3" class="3">⠀</cell><cell id="3_3" class="3">⠀</cell><cell id="4_3" class="3">⠀</cell><cell id="5_3" class="3">⠀</cell>
+        </row>
+        <row>
+            <cell id="1_4" class="4">⠀</cell><cell id="2_4" class="4">⠀</cell><cell id="3_4" class="4">⠀</cell><cell id="4_4" class="4">⠀</cell><cell id="5_4" class="4">⠀</cell>
+        </row>
+        <row>
+            <cell id="1_5" class="5">⠀</cell><cell id="2_5" class="5">⠀</cell><cell id="3_5" class="5">⠀</cell><cell id="4_5" class="5">⠀</cell><cell id="5_5" class="5">⠀</cell>
+        </row>
+        <row>
+            <cell id="1_6" class="6">⠀</cell><cell id="2_6" class="6">⠀</cell><cell id="3_6" class="6">⠀</cell><cell id="4_6" class="6">⠀</cell><cell id="5_6" class="6">⠀</cell>
+        </row>
+    </guess>
 </body>
+</html>
