@@ -9,14 +9,12 @@ body, button {
 
 guess {
 	display: block;
-	margin-top: 10%;
+	margin-top: 2rem;
 }
 
 row {
   position: relative;
 	display: table;
-	font-size: 3rem;
-	letter-spacing: 14px;
 	font-weight: bold;
 	text-shadow: -1px 0 grey, 0 1px grey, 1px 0 grey, 0 -1px grey;
 	margin: 0 auto;
@@ -31,10 +29,46 @@ cell {
 	height: 4.6rem;
 	vertical-align: middle;
 	text-align: center;
+	font-size: 3rem;
+	letter-spacing: 14px;
 	cursor: default;
 	text-transform: capitalize;
 	user-select: none;
 /*	border-radius: 15px;*/
 	outline: 2px solid #323234;
 /*	32aa34 green */ 
+}
+
+
+keyboard {
+	display: block;
+	margin-top: 2rem;
+}
+letter {
+	position: relative;
+	display: inline-block;
+	margin: .5rem;
+	padding: .2rem .5rem 0 1.2rem;
+	width: 1.8rem;
+	height: 2.6rem;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 1.5rem;
+	letter-spacing: 1.2rem;
+	cursor: default;
+	text-transform: capitalize;
+	user-select: none;
+/*	border-radius: 15px;*/
+	outline: 2px solid #323234;
+/*	32aa34 green */
+}
+
+.arow {
+	left: 1rem;
+}
+.zrow {
+	left: 0.3rem;
+}
+#Enter {
+	width: 5.2rem;
 }

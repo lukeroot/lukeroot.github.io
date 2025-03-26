@@ -1,13 +1,6 @@
 $(() => {
-    Array.prototype.myMap = function(callbackFn) {
-      var arr = [];
-      for (var i = 0; i < this.length; i++) {
-         /* call the callback function for every value of this array and       push the returned value into our resulting array
-         */
-        arr.push(callbackFn(this[i], i, this));
-      }
-      return arr;
-    }
+
+
     class Random
     {
         static cyrb128(str)
@@ -53,8 +46,10 @@ $(() => {
 
     class Wordle
     {
+        static num_of_guesses = 0
+        static letters_used = []
         static word_list
-        static word_to_guess_letters
+        static word_to_guess
         static tile_reveal_speed = 500
         static has_won = false
 
@@ -81,8 +76,8 @@ $(() => {
                 word = Wordle.word_list[index]
             }
 
-            Wordle.word_to_guess_letters = word.split('')
-            Wordle.letters_still_to_guess = structuredClone(Wordle.word_to_guess_letters)
+            Wordle.word_to_guess = word
+            Wordle.letters_still_to_guess = Wordle.word_to_guess.split("")
         }
 
         static check(guess)
@@ -92,59 +87,111 @@ $(() => {
             }
 
             let cell
+            let word_to_guess_letters = Wordle.word_to_guess.split("")
             guess.each(i => {
                 cell = $(guess[i])
-                if (cell.text() == Wordle.word_to_guess_letters[i]) {
-                    Wordle.cell_animate(cell, i, "green")
+
+                if (cell.text() == word_to_guess_letters[i]) {
+                    Wordle.letters_used[cell.text()] = 2
+                    Wordle.cell_animate(cell, i)
                     Wordle.letters_still_to_guess[i] = ''
                     return
                 }
 
                 if (Wordle.letters_still_to_guess.includes(cell.text())) {
-                    Wordle.cell_animate(cell, i, "orange")
+                    Wordle.letters_used[cell.text()] = 1
+                    Wordle.cell_animate(cell, i)
                     return
                 }
 
+                Wordle.letters_used[cell.text()] = 0
                 Wordle.cell_animate(cell, i)
             })
 
-            if (Wordle.word_to_guess_letters.join("") == guess.text()) {
+            if (Wordle.word_to_guess == guess.text()) {
                 Wordle.has_won = true
             }
+
 
             return true
         }
 
-        static cell_animate(cell, offset, colour = "grey") {
-            let background, outline
-            switch (colour) {
-                case "green":
-                    background = "#32aa34"
-                    outline = "#327734"
-                    break
-                case "orange":
-                    background = "#9a9a34"
-                    outline = "#868634"
-                    break
-                case "grey":
-                    background = "#3a3a3c"
-                    outline = "#323234"
-                    break
-
-            }
+        static cell_animate(cell, offset) {
+            let colour_info = Wordle.get_colour_from_letter(cell.text())
             setTimeout(() => {
-                cell.animate({backgroundColor:background}, Wordle.tile_reveal_speed, () => {
-                    cell.css({outline: "2px solid " + outline})
-                    if (Wordle.has_won && offset == 4) {
-                        alert('You have won!')
+                cell.animate({backgroundColor:colour_info.background}, Wordle.tile_reveal_speed, () => {
+                    cell.css({outline: "2px solid " + colour_info.outline})
+                    if (offset == 4) {
+                        if (Wordle.has_won) {
+                            alert('You have won!')
+                        }
+                        if (Wordle.has_lost()) {
+                            alert('You have lost! The word was ' + Wordle.word_to_guess)
+                        }
                     }
+
+                    Wordle.colourise_letters(cell.text())
                 })
             }, offset * Wordle.tile_reveal_speed)
         }
+
+        static get_colour_from_letter(letter, letter_mode=false, override_mode=false)
+        {
+            let background, outline, shadow = true
+            switch (override_mode ? override_mode : Wordle.letters_used[letter]) {
+                case 2:
+                    background = "#32aa34"
+                    outline = "#327734"
+                    break
+                case 1:
+                    background = "#9a9a34"
+                    outline = "#868634"
+                    break
+                case 0:
+                    background = letter_mode ? "black" : "#3a3a3c"
+                    outline = "#323234"
+                    shadow = false
+                    break
+            }
+
+            return {
+                background: background,
+                outline: outline,
+                shadow: shadow,
+            }
+        }
+
+        static colourise_letters(letter, remove_colour=false, override_mode=false)
+        {
+            let colour_info_letters = Wordle.get_colour_from_letter(letter, true, override_mode)
+// console.log(override_mode ? colour_info_letters.background : undefined || (remove_colour ? "black" : "#323234"))
+            $("#" + letter).animate({
+                backgroundColor: (!override_mode ? colour_info_letters.background : undefined) || (remove_colour ? "black" : "#323234"),
+                outline: "2px solid " + colour_info_letters.outline
+            }, Wordle.tile_reveal_speed / 2)
+
+            if (!colour_info_letters.shadow) {
+                $("#" + letter).css({
+                    "text-shadow": "none",
+                    color: colour_info_letters.outline
+                })
+            }
+        }
+
+        static has_lost()
+        {
+            return Wordle.num_of_guesses >= 6
+        }
+
+        static has_finished()
+        {
+            return Wordle.has_won || Wordle.has_lost()
+        }
     }
+    // $('head').append('<meta name="viewport" content="width=device-width, initial-scale=' + Math.min(1, Math.abs(Math.log(window.screen.width/250))).toFixed(2)  +'">');
 
 
-    let id, guess, row = 1, col = 1, random_mode
+    let id, guess, row = 1, random_mode
     let terms = window.location.search.substr(1)
     random_mode = terms.includes("random") ? terms.split("random=").pop().split("&")[0] : ""
     $("#mode").click(() => {
@@ -158,31 +205,84 @@ $(() => {
 
     Wordle.init(random_mode)
 
-    document.addEventListener("keydown",function(e){
-        if (![13,8,...Array(26).keys().map(x=>x+=65)].includes(e.keyCode) || Wordle.has_won) {
+    let control_pressed = false, enter_debounce = true, backspace_debounce = true
+    document.addEventListener("keyup", function(e){
+        if (e.keyCode == 17) {
+            control_pressed = false
             return
         }
+        if (![13,8,...Array(26).keys().toArray().map(x=>x+=65)].includes(e.keyCode) || Wordle.has_finished()) {
+            return
+        }
+        let dark = false
+        if ([13,8].includes(e.keyCode)) {
+            dark = true
+            if (e.keyCode == 13) {
+                Wordle.colourise_letters("Enter", true, 2)
+                // enter_debounce = false
+            } else {
+                Wordle.colourise_letters("Backspace", true, 1)
+                backspace_debounce = false
+            }
+
+        } else {
+            Wordle.colourise_letters(e.key, dark)
+        }
+    })
+
+    document.addEventListener("keydown", function(e){
+        if (e.keyCode == 17 || control_pressed) {
+            control_pressed = true
+            return
+        }
+        if (![13,8,...Array(26).keys().toArray().map(x=>x+=65)].includes(e.keyCode) || Wordle.has_finished()) {
+            return
+        }
+        col = Wordle.num_of_guesses + 1
         id = "#" + row + "_" + col
+
+        if (row == 1) {
+            backspace_debounce = true
+        }
         if (e.keyCode == 13) {
             if (row == 6) {
                 guess = $("." + col)
+                Wordle.colourise_letters("Enter", false, 2)
+                // enter_debounce = true
+
                 if (!Wordle.check(guess)) {
                     return
                 }
-                col += 1
+                Wordle.num_of_guesses += 1
                 row = 1
             }
             return
         }
         if (e.keyCode == 8) {
+            if (backspace_debounce) {
+                return
+            }
             row != 1 ? row-- : null
+            // console.log("#" + $(id).text())
             id = "#" + row + "_" + col
+            // $("#" + $(id).text()).css({backgroundColor: "black"})
+            let letter = $(id).text()
             $(id).text("⠀")
+            if (!$("." + col).text().includes(letter)) {
+                Wordle.colourise_letters(letter, true)
+            }
+            Wordle.colourise_letters("Backspace", false, 1)
+            backspace_debounce = true
             return
         }
         if (row < 6) {
+            $("#" + e.key).css({
+                backgroundColor: "#323234",
+                outline: "2px solid #323234"
+            })
             row < 6 ? row++ : null
             $(id).text(e.key)
+            backspace_debounce = false
         }
     })
 
