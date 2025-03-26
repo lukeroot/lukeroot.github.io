@@ -45,76 +45,112 @@ $(() => {
     class Wordle
     {
         static word_list
-        static word_to_guess
+        static word_to_guess_letters
         static tile_reveal_speed = 500
+        static has_won = false
 
-        static init()
+        static init(random_mode = false)
         {
             let xmlhttp = new XMLHttpRequest()
             xmlhttp.open("GET", "5_letter_words.txt", false)
             xmlhttp.overrideMimeType("text/plain")
             xmlhttp.send()
             Wordle.word_list = xmlhttp.responseText.split("\n")
-            Wordle.set_word()
+            Wordle.set_word(null, random_mode)
         }
 
-        static set_word(word = null)
+        static set_word(word = null, random_mode = false)
         {
             if (!word) {
-                word = Wordle.word_list[
-                    // parseInt(Random.rand() * Wordle.word_list.length)
-                    parseInt(Math.random())
-                ]
+                let index
+                if (random_mode == 1) {
+                    index = parseInt(Math.random() * Wordle.word_list.length)
+                } else {
+                    index = parseInt(Random.rand() * Wordle.word_list.length)
+                }
+
+                word = Wordle.word_list[index]
             }
 
-            Wordle.word_to_guess = word.split('')
-            Wordle.letters_to_guess = Wordle.word_to_guess
+            Wordle.word_to_guess_letters = word.split('')
+            Wordle.letters_still_to_guess = structuredClone(Wordle.word_to_guess_letters)
         }
 
         static check(guess)
         {
-            if (!Wordle.word_list.includes(guess.text())) {
+            if (!Wordle.word_list.includes(guess.text()) || Wordle.has_won) {
                 return false
             }
 
             let cell
             guess.each(i => {
                 cell = $(guess[i])
-                if (cell.text() == Wordle.word_to_guess[i]) {
-                    Wordle.cell_animate("#32aa34", i, cell)
-                    Wordle.letters_to_guess[i] = ''
+                if (cell.text() == Wordle.word_to_guess_letters[i]) {
+                    Wordle.cell_animate(cell, i, "green")
+                    Wordle.letters_still_to_guess[i] = ''
                     return
                 }
 
-                if (Wordle.letters_to_guess.includes(cell.text())) {
-                    Wordle.cell_animate("#9a9a34", i, cell)
+                if (Wordle.letters_still_to_guess.includes(cell.text())) {
+                    Wordle.cell_animate(cell, i, "orange")
                     return
                 }
 
-                Wordle.cell_animate("#3a3a3c", i, cell)
+                Wordle.cell_animate(cell, i)
             })
+
+            if (Wordle.word_to_guess_letters.join("") == guess.text()) {
+                Wordle.has_won = true
+            }
 
             return true
         }
 
-        static cell_animate(colour, i, cell) {
-            // console.log(cell)
+        static cell_animate(cell, offset, colour = "grey") {
+            let background, outline
+            switch (colour) {
+                case "green":
+                    background = "#32aa34"
+                    outline = "#327734"
+                    break
+                case "orange":
+                    background = "#9a9a34"
+                    outline = "#868634"
+                    break
+                case "grey":
+                    background = "#3a3a3c"
+                    outline = "#323234"
+                    break
+
+            }
             setTimeout(() => {
-                cell.animate({backgroundColor:colour}, Wordle.tile_reveal_speed, () => {
-                    $(this).css({backgroundColor:colour})
+                cell.animate({backgroundColor:background}, Wordle.tile_reveal_speed, () => {
+                    cell.css({outline: "2px solid " + outline})
+                    if (Wordle.has_won && offset == 4) {
+                        alert('You have won!')
+                    }
                 })
-            }, i * Wordle.tile_reveal_speed)
+            }, offset * Wordle.tile_reveal_speed)
         }
     }
 
-    Wordle.init()
 
-    let row = 1
-    let col = 1
-    let guess
-    let id
+    let id, guess, row = 1, col = 1, random_mode
+    let terms = window.location.search.substr(1)
+    random_mode = terms.includes("random") ? terms.split("random=").pop().split("&")[0] : ""
+    $("#mode").click(() => {
+        if (random_mode == 1) {
+            random_mode = 0
+        } else {
+            random_mode = 1
+        }
+        window.location.href = "index.html?random=" + random_mode
+    })
+
+    Wordle.init(random_mode)
+
     document.addEventListener("keydown",function(e){
-        if (![13,8,...Array(26).keys().map(x=>x+=65)].includes(e.keyCode)) {
+        if (![13,8,...Array(26).keys().map(x=>x+=65)].includes(e.keyCode) || Wordle.has_won) {
             return
         }
         id = "#" + row + "_" + col
@@ -124,14 +160,6 @@ $(() => {
                 if (!Wordle.check(guess)) {
                     return
                 }
-                // guess.each(i => {
-                //     setTimeout(() => {
-                //         $(guess[i]).animate({backgroundColor:"#3a3a3c"}, tile_reveal_speed, () => {
-                //             $(this).css({backgroundColor:"#3a3a3c"})
-                //         })
-                //     }, i * tile_reveal_speed)
-                // })
-                // $()
                 col += 1
                 row = 1
             }
@@ -148,4 +176,6 @@ $(() => {
             $(id).text(e.key)
         }
     })
+
+
 })

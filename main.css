@@ -1,8 +1,6 @@
-body, input {
+body, button {
 	background-color: black;
 	font-family: 'Open Sans';
-
-/*	  transition: background-color ease-in 2s;*/
 }
 
 * {
@@ -22,7 +20,6 @@ row {
 	font-weight: bold;
 	text-shadow: -1px 0 grey, 0 1px grey, 1px 0 grey, 0 -1px grey;
 	margin: 0 auto;
-/*  width: 50%;*/
 }
 
 cell {
@@ -36,6 +33,7 @@ cell {
 	text-align: center;
 	cursor: default;
 	text-transform: capitalize;
+	user-select: none;
 /*	border-radius: 15px;*/
 	outline: 2px solid #323234;
 /*	32aa34 green */ 
