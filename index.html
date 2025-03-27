@@ -11,31 +11,56 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans" />
     <!-- local -->
-    <script src="main.js"></script>
+    <script type="module" src="main.js"></script>
     <link rel="stylesheet" href="main.css">
+    <link rel="icon" href="favicon.ico"/>
 </head>
 <body>
-    <button id="mode">Daily/Random mode</button>
-    <guess>
-        <row>
-            <cell id="1_1" class="1">⠀</cell><cell id="2_1" class="1">⠀</cell><cell id="3_1" class="1">⠀</cell><cell id="4_1" class="1">⠀</cell><cell id="5_1" class="1">⠀</cell>
-        </row>
-        <row>
-            <cell id="1_2" class="2">⠀</cell><cell id="2_2" class="2">⠀</cell><cell id="3_2" class="2">⠀</cell><cell id="4_2" class="2">⠀</cell><cell id="5_2" class="2">⠀</cell>
-        </row>
-        <row>
-            <cell id="1_3" class="3">⠀</cell><cell id="2_3" class="3">⠀</cell><cell id="3_3" class="3">⠀</cell><cell id="4_3" class="3">⠀</cell><cell id="5_3" class="3">⠀</cell>
-        </row>
-        <row>
-            <cell id="1_4" class="4">⠀</cell><cell id="2_4" class="4">⠀</cell><cell id="3_4" class="4">⠀</cell><cell id="4_4" class="4">⠀</cell><cell id="5_4" class="4">⠀</cell>
-        </row>
-        <row>
-            <cell id="1_5" class="5">⠀</cell><cell id="2_5" class="5">⠀</cell><cell id="3_5" class="5">⠀</cell><cell id="4_5" class="5">⠀</cell><cell id="5_5" class="5">⠀</cell>
-        </row>
-        <row>
-            <cell id="1_6" class="6">⠀</cell><cell id="2_6" class="6">⠀</cell><cell id="3_6" class="6">⠀</cell><cell id="4_6" class="6">⠀</cell><cell id="5_6" class="6">⠀</cell>
-        </row>
-    </guess>
+    <modes>
+        <mode id="random_mode">Random Mode</mode>
+        <mode id="ai_mode" hidden>A Wurdi challenge!</mode>
+    </modes>
+    <guess-list>
+        <guess>
+            <row>
+                <cell id="1_1" class="1">⠀</cell><cell id="2_1" class="1">⠀</cell><cell id="3_1" class="1">⠀</cell><cell id="4_1" class="1">⠀</cell><cell id="5_1" class="1">⠀</cell>
+            </row>
+            <row>
+                <cell id="1_2" class="2">⠀</cell><cell id="2_2" class="2">⠀</cell><cell id="3_2" class="2">⠀</cell><cell id="4_2" class="2">⠀</cell><cell id="5_2" class="2">⠀</cell>
+            </row>
+            <row>
+                <cell id="1_3" class="3">⠀</cell><cell id="2_3" class="3">⠀</cell><cell id="3_3" class="3">⠀</cell><cell id="4_3" class="3">⠀</cell><cell id="5_3" class="3">⠀</cell>
+            </row>
+            <row>
+                <cell id="1_4" class="4">⠀</cell><cell id="2_4" class="4">⠀</cell><cell id="3_4" class="4">⠀</cell><cell id="4_4" class="4">⠀</cell><cell id="5_4" class="4">⠀</cell>
+            </row>
+            <row>
+                <cell id="1_5" class="5">⠀</cell><cell id="2_5" class="5">⠀</cell><cell id="3_5" class="5">⠀</cell><cell id="4_5" class="5">⠀</cell><cell id="5_5" class="5">⠀</cell>
+            </row>
+            <row>
+                <cell id="1_6" class="6">⠀</cell><cell id="2_6" class="6">⠀</cell><cell id="3_6" class="6">⠀</cell><cell id="4_6" class="6">⠀</cell><cell id="5_6" class="6">⠀</cell>
+            </row>
+        </guess><wurdi-guess>
+            <row>
+                <cell id="wurdi_1_1" class="wurdi_1">⠀</cell><cell id="wurdi_2_1" class="wurdi_1">⠀</cell><cell id="wurdi_3_1" class="wurdi_1">⠀</cell><cell id="wurdi_4_1" class="wurdi_1">⠀</cell><cell id="wurdi_5_1" class="wurdi_1">⠀</cell>
+            </row>
+            <row>
+                <cell id="wurdi_1_2" class="wurdi_2">⠀</cell><cell id="wurdi_2_2" class="wurdi_2">⠀</cell><cell id="wurdi_3_2" class="wurdi_2">⠀</cell><cell id="wurdi_4_2" class="wurdi_2">⠀</cell><cell id="wurdi_5_2" class="wurdi_2">⠀</cell>
+            </row>
+            <row>
+                <cell id="wurdi_1_3" class="wurdi_3">⠀</cell><cell id="wurdi_2_3" class="wurdi_3">⠀</cell><cell id="wurdi_3_3" class="wurdi_3">⠀</cell><cell id="wurdi_4_3" class="wurdi_3">⠀</cell><cell id="wurdi_5_3" class="wurdi_3">⠀</cell>
+            </row>
+            <row>
+                <cell id="wurdi_1_4" class="wurdi_4">⠀</cell><cell id="wurdi_2_4" class="wurdi_4">⠀</cell><cell id="wurdi_3_4" class="wurdi_4">⠀</cell><cell id="wurdi_4_4" class="wurdi_4">⠀</cell><cell id="wurdi_5_4" class="wurdi_4">⠀</cell>
+            </row>
+            <row>
+                <cell id="wurdi_1_5" class="wurdi_5">⠀</cell><cell id="wurdi_2_5" class="wurdi_5">⠀</cell><cell id="wurdi_3_5" class="wurdi_5">⠀</cell><cell id="wurdi_4_5" class="wurdi_5">⠀</cell><cell id="wurdi_5_5" class="wurdi_5">⠀</cell>
+            </row>
+            <row>
+                <cell id="wurdi_1_6" class="wurdi_6">⠀</cell><cell id="wurdi_2_6" class="wurdi_6">⠀</cell><cell id="wurdi_3_6" class="wurdi_6">⠀</cell><cell id="wurdi_4_6" class="wurdi_6">⠀</cell><cell id="wurdi_5_6" class="wurdi_6">⠀</cell>
+            </row>
+        </wurdi-guess>
+    </guess-list>
     <keyboard>
         <row>
             <letter id="q" data-background="">q</letter><letter id="w" data-background="">w</letter><letter id="e" data-background="">e</letter><letter id="r" data-background="">r</letter><letter id="t" data-background="">t</letter><letter id="y" data-background="">y</letter><letter id="u" data-background="">u</letter><letter id="i" data-background="">i</letter><letter id="o" data-background="">o</letter><letter id="p" data-background="">p</letter>
