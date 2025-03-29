@@ -167,7 +167,23 @@ export class Wordle
 
     static check(guess)
     {
-        if (!Wordle.word_list.includes(guess.text()) || Wordle.has_won) {
+        if (Wordle.has_won) {
+            return false
+        }
+
+        if (!Wordle.word_list.includes(guess.text())) {
+            guess.each(i => {
+                let background_colour = $(guess[i]).css("backgroundColor")
+                let outline = $(guess[i]).css("backgroundColor")
+
+                $(guess[i]).animate({backgroundColor: "red"}, Wordle.tile_reveal_speed, () => {
+                    $(guess[i]).animate({backgroundColor: background_colour}, Wordle.tile_reveal_speed, () => {
+                        $(guess[i]).css({
+                            outline: "2px solid #323234"
+                        })
+                    })
+                })
+            })
             return false
         }
 
@@ -246,6 +262,7 @@ export class Wordle
     static lose()
     {
         $("." + Wordle.num_of_guesses).css({backgroundColor:"red", outline: "#773434"})
+        alert("No more guesses! The word was " + this.word_to_guess.toUpperCase())
     }
 
     static get_colour_from_letter(letter, letter_mode=false, override_mode=false)
