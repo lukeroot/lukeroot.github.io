@@ -101,3 +101,35 @@ letter:hover {
   font-size: 2rem;
   line-height: 2.2rem;
 }
+
+
+
+/* ios screens but I'm gonna come back here promise! */
+@media only screen and (max-width: 1000px) {
+  body {
+    touch-action: manipulation;
+  }
+
+  guess-list {
+    margin-top: 14rem;
+  }
+
+  cell {
+    width: 8rem;
+    height: 9rem;
+    font-size: 6rem;
+  }
+
+  keyboard {
+    margin-top: 12rem;
+  }
+
+  letter {
+    padding: 2rem .8rem .5rem .8rem;
+    width: 3.3rem;
+    height: 7.3rem;
+    font-size: 3.5rem;
+  }
+
+
+}
