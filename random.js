@@ -37,6 +37,6 @@ export class Random
             seed = (new Date()).toLocaleDateString("en-UK")
         }
 
-        return Random.sfc32(...Random.cyrb128(seed))
+        return this.sfc32(...this.cyrb128(seed))
     }
 }

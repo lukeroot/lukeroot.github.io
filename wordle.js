@@ -1,181 +1,201 @@
 import { Random } from "./random.js"
+import { Words } from "./words.js"
+import { Wurdi } from "./wurdi.js"
 
 export class Wordle
 {
+    static modes = {}
     static num_of_guesses = 0
-    static letters_used = []
-    static word_list
-    static word_to_guess
+    static letters_used = {}
+    static word_to_guess = ""
     static row = 1
     static tile_reveal_speed = 400
     static has_won = false
     static control_pressed = false
-    static backspace_debounce = true
 
-    static init(modes)
+    static init(modes, word = null)
     {
-        let xmlhttp = new XMLHttpRequest()
-        xmlhttp.open("GET", "5_letter_words.txt", false)
-        xmlhttp.overrideMimeType("text/plain")
-        xmlhttp.send()
-        Wordle.word_list = xmlhttp.responseText.split("\n")
-        Wordle.set_word(null, modes.random_mode)
-        if (modes.ai_mode == 1) {
-            $("#ai_mode").text("Solo")
-            Wordle.play_wurdi()
+        this.modes = modes
+        this.set_word(word)
+        this.mode_display()
+        this.handle_events()
+    }
+
+    static set_word(word = null)
+    {
+        if (!word) {
+            let index
+            if (this.modes.random_mode == 1) {
+                index = parseInt(Math.random() * Words.get_list().length)
+                $("random-mode").removeClass("light-grey")
+                $("daily-mode").addClass("light-grey")
+            } else {
+                index = parseInt(Random.rand() * Words.get_list().length)
+            }
+
+            word = Words.get_list()[index]
+        }
+
+        this.word_to_guess = word
+        this.letters_still_to_guess = this.word_to_guess.split("")
+    }
+
+    static mode_display()
+    {
+        if (this.modes.ai_mode == 1) {
+            $("wurdi-mode").removeClass("light-grey")
+            $("solo-mode").addClass("light-grey")
+            this.play_wurdi()
         } else {
             $("wurdi-guess").remove()
             $("guess").width("100%")
         }
-        Wordle.handle_events()
-    }
-
-    static set_word(word = null, random_mode = 0)
-    {
-        if (!word) {
-            let index
-            if (random_mode == 1) {
-                index = parseInt(Math.random() * Wordle.word_list.length)
-                $("#random_mode").text("Daily Challenge")
-            } else {
-                index = parseInt(Random.rand() * Wordle.word_list.length)
-            }
-
-            word = Wordle.word_list[index]
-        }
-
-        Wordle.word_to_guess = word
-        Wordle.letters_still_to_guess = Wordle.word_to_guess.split("")
     }
 
     static play_wurdi()
     {
+        Wurdi.init()
+        //test
+        // for (let i = 1; i <= 6; i++) {
 
+        // Wurdi.got_the_next_word_yey(i)
+        // this.check($(".wurdi_" + i))
+        // }
     }
 
     static has_lost()
     {
-        return Wordle.num_of_guesses >= 6
+        return this.num_of_guesses >= 6
     }
 
     static has_finished()
     {
-        return Wordle.has_won || Wordle.has_lost()
+        return this.has_won || this.has_lost()
     }
 
     static handle_events()
     {
-        $(document).keydown((e) => {
-            Wordle.key_down_event(e.key, e.keyCode)
+        // $.debounce(200, () => {
+
+        $(document).keydown(
+            (e) => {
+        // $.debounce(100, (e) => {
+            this.key_down_event(e.key, e.keyCode)
         })
-        $(document).keyup((e) => {
-            Wordle.key_up_event(e.key, e.keyCode)
+        $(document).keyup(
+            (e) => {
+        // $.debounce(100, (e) => {
+            this.key_up_event(e.key, e.keyCode)
         })
-        $("letter").click((el) => {
+        $("letter").click(
+        // $.debounce(100, (el) => {
+            (el) => {
             let letter = ($(el))[0].target.id
             let code = letter == "Backspace" ? 8 : letter == "Enter" ? 13 : letter.toUpperCase().charCodeAt(0)
-            Wordle.key_down_event(letter, code)
-            Wordle.key_up_event(letter, code)
+            this.key_down_event(letter, code)
+            this.key_up_event(letter, code)
         })
     }
 
     static key_up_event(key, keyCode)
     {
         if (keyCode == 17) {
-            Wordle.control_pressed = false
+            this.control_pressed = false
             return
         }
-        if (Wordle.allowed_keys(keyCode)) {
+        if (this.allowed_keys(keyCode)) {
             return
         }
         let dark = false
         if ([13,8].includes(keyCode)) {
             dark = true
             if (keyCode == 13) {
-                Wordle.colourise_letters("Enter", true, 2)
+                this.colourise_letters("Enter", true, 2)
             } else {
-                Wordle.colourise_letters("Backspace", true, 1)
-                Wordle.backspace_debounce = false
+                this.colourise_letters("Backspace", true, 1)
             }
 
         } else {
-            Wordle.colourise_letters(key, dark)
+            this.colourise_letters(key, dark)
         }
     }
 
     static key_down_event(key, keyCode)
     {
-        if (keyCode == 17 || Wordle.control_pressed) {
-            Wordle.control_pressed = true
+        if (keyCode == 17 || this.control_pressed) {
+            this.control_pressed = true
             return
         }
-        if (Wordle.allowed_keys(keyCode)) {
+        if (this.allowed_keys(keyCode)) {
             return
         }
-        let col = Wordle.num_of_guesses + 1
-        let id = "#" + Wordle.row + "_" + col
+        let col = this.num_of_guesses + 1
 
-        if (Wordle.row == 1) {
-            Wordle.backspace_debounce = true
-        }
+        let id = "#" + this.row + "_" + col
+
         if (keyCode == 13) {
-            if (Wordle.row == 6) {
-                Wordle.colourise_letters("Enter", false, 2)
+            if (this.row == 6) {
 
-                if (!Wordle.check($("." + col))) {
+                this.colourise_letters("Enter", false, 2)
+
+                if (!this.check($("." + col))) {
                     return
                 }
-                Wordle.num_of_guesses += 1
-                Wordle.row = 1
+
+                if (!this.has_won && Wurdi.yawn_im_awake_promise) {
+                    Wurdi.got_the_next_word_yey(col)
+                    this.check($(".wurdi_" + col))
+                    if (this.has_won) {
+                        Wurdi.won = true
+                    }
+                }
+
+                this.num_of_guesses += 1
+                this.row = 1
             }
             return
         }
         if (keyCode == 8) {
-            if (Wordle.backspace_debounce) {
-                return
-            }
-            Wordle.row != 1 ? Wordle.row-- : null
-            id = "#" + Wordle.row + "_" + col
+            this.row != 1 ? this.row-- : null
+            id = "#" + this.row + "_" + col
             let letter = $(id).text()
             $(id).text("⠀")
             if (!$("." + col).text().includes(letter)) {
-                Wordle.colourise_letters(letter, true)
+                this.colourise_letters(letter, true)
             }
-            Wordle.colourise_letters("Backspace", false, 1)
-            Wordle.backspace_debounce = true
+            this.colourise_letters("Backspace", false, 1)
             return
         }
-        if (Wordle.row < 6) {
+        if (this.row < 6) {
             $("#" + key).css({
                 backgroundColor: "#323234",
                 outline: "2px solid #323234"
             })
-            Wordle.row < 6 ? Wordle.row++ : null
+            this.row < 6 ? this.row++ : null
             $(id).text(key)
-            Wordle.backspace_debounce = false
         }
     }
 
     static allowed_keys(key)
     {
         let allowed_keys = [13, 8]
-        for (let i = 65; i <= 65 + 26; i++) {
+        for (let i = 65; i < 65 + 26; i++) {
             allowed_keys.push(i)
         }
-        return !allowed_keys.includes(key) || Wordle.has_finished()
+        return !allowed_keys.includes(key) || this.has_finished()
     }
 
     static check(guess)
     {
-        if (Wordle.has_won) {
+        if (this.has_won) {
             return false
         }
 
-        if (!Wordle.word_list.includes(guess.text())) {
+        if (!Words.get_list().includes(guess.text())) {
             guess.each(i => {
                 let background_colour = $(guess[i]).css("backgroundColor")
                 let outline = $(guess[i]).css("backgroundColor")
-
+                //scrap this crap it needs to be b4 the enter imo
                 $(guess[i]).animate({backgroundColor: "red"}, Wordle.tile_reveal_speed, () => {
                     $(guess[i]).animate({backgroundColor: background_colour}, Wordle.tile_reveal_speed, () => {
                         $(guess[i]).css({
@@ -184,37 +204,39 @@ export class Wordle
                     })
                 })
             })
+
             return false
         }
 
         let cell
-        let word_to_guess_letters = Wordle.word_to_guess.split("")
+        let word_to_guess_letters = this.word_to_guess.split("")
         guess.each(i => {
             if ($(guess[i]).text() == word_to_guess_letters[i]) {
-                Wordle.letters_still_to_guess[i] = ''
+                this.letters_still_to_guess[i] = ""
             }
+
+            // if amber guess in removed letter list (dont duplicate ambers)
         })
         guess.each(i => {
             cell = $(guess[i])
 
             if (cell.text() == word_to_guess_letters[i]) {
-                Wordle.letters_used[cell.text()] = 2
-                Wordle.cell_animate(cell, i)
-                return
+                this.letters_used[cell.text()] = 2
+            } else if (this.letters_still_to_guess.includes(cell.text())) {
+                this.letters_used[cell.text()] = 1
+            } else {
+                this.letters_used[cell.text()] = 0
             }
 
-            if (Wordle.letters_still_to_guess.includes(cell.text())) {
-                Wordle.letters_used[cell.text()] = 1
-                Wordle.cell_animate(cell, i)
-                return
-            }
+            Wurdi.yawn_im_awake_promise ? Wurdi.mmm_i_like_letter_column_soup(i + cell.text(), this.letters_used[cell.text()]) : null
 
-            Wordle.letters_used[cell.text()] = 0
-            Wordle.cell_animate(cell, i)
+            this.cell_animate(cell, i)
         })
 
-        if (Wordle.word_to_guess == guess.text()) {
-            Wordle.has_won = true
+        Wurdi.yawn_im_awake_promise ? Wurdi.mm_letters_used_tasty(this.letters_used) : null
+
+        if (this.word_to_guess == guess.text()) {
+            this.has_won = true
         }
 
         return true
@@ -222,27 +244,26 @@ export class Wordle
 
     static cell_animate(cell, offset)
     {
-        let colour_info = Wordle.get_colour_from_letter(cell.text())
+        let colour_info = this.get_colour_from_letter(cell.text())
         setTimeout(() => {
-            cell.animate({backgroundColor:colour_info.background}, Wordle.tile_reveal_speed, () => {
+            cell.animate({backgroundColor:colour_info.background}, this.tile_reveal_speed, () => {
                 cell.css({outline: "2px solid " + colour_info.outline})
                 if (offset == 4) {
-                    if (Wordle.has_won) {
-                        Wordle.win()
-                    }
-                    if (Wordle.has_lost()) {
-                        Wordle.lose()
+                    if (this.has_won) {
+                        this.win()
+                    } else if (this.has_lost()) {
+                        this.lose()
                     }
                 }
 
-                Wordle.colourise_letters(cell.text())
+                this.colourise_letters(cell.text())
             })
-        }, offset * Wordle.tile_reveal_speed)
+        }, offset * this.tile_reveal_speed)
     }
 
     static win()
     {
-        let cell, win = $("." + Wordle.num_of_guesses)
+        let cell, win = $("." + (Wurdi.won ? "wurdi_" : "") + this.num_of_guesses)
         for (let i = 0; i <= 20; i++) {
             win.each(key => {
                 cell = $(win[key])
@@ -252,7 +273,7 @@ export class Wordle
                     ${parseInt(Math.random() * 255)})
                 `
                 let letter = cell.text()
-                cell.animate({backgroundColor:colour}, Wordle.tile_reveal_speed / 2, () => {
+                cell.animate({backgroundColor:colour}, this.tile_reveal_speed / 2, () => {
                     $("#" + letter).css({backgroundColor: colour})
                 })
             })
@@ -261,14 +282,14 @@ export class Wordle
 
     static lose()
     {
-        $("." + Wordle.num_of_guesses).css({backgroundColor:"red", outline: "#773434"})
         alert("No more guesses! The word was " + this.word_to_guess.toUpperCase())
+        $("." + this.num_of_guesses).css({backgroundColor:"red", outline: "#773434"})
     }
 
     static get_colour_from_letter(letter, letter_mode=false, override_mode=false)
     {
         let background, outline, shadow = true
-        switch (override_mode ? override_mode : Wordle.letters_used[letter]) {
+        switch (override_mode ? override_mode : this.letters_used[letter]) {
             case 2:
                 background = "#32aa34"
                 outline = "#327734"
@@ -293,10 +314,14 @@ export class Wordle
 
     static colourise_letters(letter, remove_colour=false, override_mode=false)
     {
-        let colour_info_letters = Wordle.get_colour_from_letter(letter, true, override_mode)
+        if (!["Enter", "Backspace"].includes(letter) && this.row > 5) {
+            return
+        }
+
+        let colour_info_letters = this.get_colour_from_letter(letter, true, override_mode)
         $("#" + letter).animate({
             backgroundColor: (!override_mode ? colour_info_letters.background : undefined) || (remove_colour ? "black" : "#323234"),
-        }, Wordle.tile_reveal_speed / 2, () => {
+        }, this.tile_reveal_speed / 2, () => {
             if (!override_mode) {
                 $("#" + letter).css({outline: "2px solid " + colour_info_letters.outline})
             }

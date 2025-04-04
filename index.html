@@ -7,6 +7,7 @@
     <!-- vendor -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.color-animation/1/mainfile"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans" />
@@ -17,8 +18,16 @@
 </head>
 <body>
     <modes>
-        <mode id="random_mode">Random Mode</mode>
-        <mode id="ai_mode" hidden>A Wurdi challenge!</mode>
+        <mode id="random_mode" class="random_mode">
+            <daily-mode class="random_mode">Daily</daily-mode>
+            <span class="random_mode light-grey">/</span>
+            <random-mode class="random_mode light-grey">Random</random-mode>
+        </mode>
+        <mode id="ai_mode" class="ai_mode">
+            <solo-mode class="ai_mode">Solo</solo-mode>
+            <span class="ai_mode light-grey">/</span>
+            <wurdi-mode class="ai_mode light-grey">A Wurdi challenge!</wurdi-mode>
+        </mode>
     </modes>
     <guess-list>
         <guess>

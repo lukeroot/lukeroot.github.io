@@ -22,7 +22,7 @@ $(() => {
             } else {
                 value = 1
             }
-            let key = ($(el))[0].target.id
+            let key = ($(el))[0].target.classList[0]
             params = params.replace(new RegExp(key + "=."), key + "=" + value)
             window.location.href = "index.html" + params
         })
